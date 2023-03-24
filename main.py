@@ -87,22 +87,24 @@ def fn_display_scraper_app():
     frame_main.place(x=6,y=6)
     frame_btn = tk.Frame(width=732, height=50, borderwidth=1, relief='ridge', bg='#E4DCCF')
     frame_btn.place(x=11, y=10)
-    btn_scraping    = tk.Button(width=10,height=2)
-    btn_scraping.config(text='Start Scraping',bg='#E4DCCF',font=('Arial',10,'bold'))
-    btn_scraping.place(x=20,y=17,width=130,height=35)
+    def fn_get_crypto_data():
+        with open(file='files/Cryptocurrencies.txt', mode='r') as crypto_f:
+            file_content = crypto_f.readlines()
+            for j, line in enumerate(file_content):
+                if j ==0:
+                    header_line = tuple(line.split(sep='|'))
+                    for i in range(len(header_line)):
+                         master_table.heading(f'#{i}',text=header_line[i])
+                else:
+                    row_content=tuple(line.split(sep='|'))
+                    master_table.insert('',index=j,text=row_content[0], values=row_content[1:])
+    btn_scraping = tk.Button(width=10, height=2)
+    btn_scraping.config(text='Start Scraping', bg='#E4DCCF', font=('Arial', 10, 'bold'),command=fn_get_crypto_data)
+    btn_scraping.place(x=20, y=17, width=130, height=35)
     master_table = ttk.Treeview(columns=tupla_header_glb)
-    with open(file='files/Cryptocurrencies.txt', mode='r') as crypto_f:
-        file_content = crypto_f.readlines()
-        for j, line in enumerate(file_content):
-            if j ==0:
-                header_line = tuple(line.split(sep='|'))
-                for i in range(len(header_line)):
-                     master_table.heading(f'#{i}',text=header_line[i])
-            else:
-                row_content=tuple(line.split(sep='|'))
-                master_table.insert('',index=j,text=row_content[0], values=row_content[1:])
-    master_table.place(x=11,y=65,width=732,height=200)
-
+    master_table.place(x=11,y=65,width=720,height=200)
+    scroll_bar = ttk.Scrollbar(orient='vertical', command=master_table.yview)
+    scroll_bar.place(x=732,y=65,height=200)
     windows.update()
     windows.mainloop()
 
