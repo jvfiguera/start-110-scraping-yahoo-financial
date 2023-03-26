@@ -15,11 +15,9 @@ max_num_col=11
 row_glb    =0
 n_loop     =0
 tupla_header_glb=()
-
 # FIN DEFINICIÓN DE VARIABLES
 
 # INICIO DEFINICIÓN DE FUNCIONES
-
 def fn_show_message(p_msg:str):
     wk_message =p_msg
     windows.option_add('*Dialog.msg.font', 'Arial 10')
